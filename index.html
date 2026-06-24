@@ -22,23 +22,19 @@
   --bg: #FFFFFF;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { background: var(--bg); color: var(--text); font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif; -webkit-font-smoothing: antialiased; }
-body { min-height: 100vh; }
+html { background: var(--pink); }
+body { background: var(--pink); color: var(--text); font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif; -webkit-font-smoothing: antialiased; min-height: 100vh; padding: 18px; }
+.page { background: white; border-radius: 24px; max-width: 1100px; margin: 0 auto; overflow: hidden; }
+@media (max-width: 640px) { body { padding: 8px; } .page { border-radius: 16px; } }
 
-/* Header */
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 20px 32px;
+  gap: 28px;
+  padding: 22px 32px 18px;
   border-bottom: 1px solid var(--border-soft);
-  position: sticky;
-  top: 0;
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(8px);
-  z-index: 10;
 }
-.logo { height: 36px; }
+.logo { height: 32px; flex-shrink: 0; }
 .nav { display: flex; gap: 4px; }
 .nav button {
   font-family: inherit;
@@ -63,54 +59,68 @@ body { min-height: 100vh; }
 }
 .nav button.active { background: var(--pink); color: white; }
 @media (max-width: 640px) {
-  /* Шапка остаётся закреплённой при скролле, навигация всегда под рукой */
-  .header { flex-direction: column; gap: 16px; padding: 16px 20px; position: sticky; top: 0; }
-  .logo { height: 32px; }
-  .nav { width: 100%; justify-content: center; }
-  .nav button { padding: 8px 14px; font-size: 13px; }
+  .header { flex-direction: column; align-items: flex-start; gap: 12px; padding: 14px 18px; }
+  .logo { height: 28px; }
+  .nav { width: 100%; }
+  .nav button { padding: 6px 12px; font-size: 13px; }
 }
 
-/* Main */
-.main { padding: 40px 32px 80px; max-width: 1200px; margin: 0 auto; }
-@media (max-width: 640px) { .main { padding: 24px 16px 60px; } }
+.main { padding: 36px 32px 80px; max-width: 1200px; margin: 0 auto; }
+@media (max-width: 640px) { .main { padding: 22px 16px 60px; } }
 
-h1 { font-size: 28px; font-weight: 600; margin-bottom: 24px; letter-spacing: -0.01em; }
+h1 { font-size: 26px; font-weight: 600; margin-bottom: 22px; letter-spacing: -0.01em; }
 @media (max-width: 640px) { h1 { font-size: 22px; margin-bottom: 16px; } }
 
 .section { display: none; }
 .section.active { display: block; }
 
-/* Structure section */
+/* Structure */
 .structure-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 12px; }
-.structure-wrap svg { display: block; min-width: 680px; height: auto; }
-.legend { margin-top: 16px; font-size: 13px; color: var(--muted); text-align: center; }
+.structure-wrap svg { display: block; min-width: 680px; max-width: 760px; margin: 0 auto; height: auto; }
+.legend { margin-top: 14px; font-size: 13px; color: var(--muted); text-align: center; }
 .legend strong { color: var(--pink); }
 
-/* Tasks grid */
-.tasks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
-@media (max-width: 640px) { .tasks-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+/* Tasks page — hierarchical groups */
+.people-section { margin-bottom: 36px; }
+.people-section:last-child { margin-bottom: 0; }
+.group-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--pink-deep);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--pink-fill);
+}
+.tasks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; }
+@media (max-width: 640px) { .tasks-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
 @media (max-width: 380px) { .tasks-grid { grid-template-columns: 1fr; } }
 
 .person-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 24px 16px 20px;
+  padding: 20px 14px 16px;
   background: white;
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: 14px;
   cursor: pointer;
   transition: all 0.15s ease;
   text-align: center;
 }
 .person-card:hover {
+  background: var(--pink);
   border-color: var(--pink);
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(231,138,174,0.12);
+  box-shadow: 0 8px 24px rgba(231,138,174,0.25);
 }
+.person-card:hover .person-name { color: white; }
+.person-card:hover .person-role { color: rgba(255,255,255,0.88); }
+.person-card:hover .avatar { background: white; color: var(--pink); }
 .avatar {
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   background: var(--pink-fill);
   display: flex;
@@ -118,11 +128,18 @@ h1 { font-size: 28px; font-weight: 600; margin-bottom: 24px; letter-spacing: -0.
   justify-content: center;
   color: var(--pink-deep);
   font-weight: 600;
-  font-size: 20px;
-  margin-bottom: 12px;
+  font-size: 18px;
+  margin-bottom: 10px;
+  overflow: hidden;
 }
-.person-name { font-size: 14px; font-weight: 600; line-height: 1.3; margin-bottom: 4px; }
-.person-role { font-size: 12px; color: var(--muted); line-height: 1.35; }
+.avatar img, .member-avatar img, .modal-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.person-name { font-size: 13px; font-weight: 600; line-height: 1.3; margin-bottom: 3px; }
+.person-role { font-size: 11px; color: var(--muted); line-height: 1.35; }
 
 /* Modal */
 .modal-backdrop {
@@ -156,17 +173,17 @@ h1 { font-size: 28px; font-weight: 600; margin-bottom: 24px; letter-spacing: -0.
 }
 
 .modal-header {
-  padding: 28px 32px 20px;
+  padding: 26px 28px 18px;
   border-bottom: 1px solid var(--border-soft);
   display: flex;
-  gap: 16px;
+  gap: 14px;
   align-items: flex-start;
   position: relative;
 }
 @media (max-width: 640px) { .modal-header { padding: 20px 20px 16px; } }
 .modal-avatar {
-  width: 56px;
-  height: 56px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   background: var(--pink-fill);
   color: var(--pink-deep);
@@ -174,24 +191,25 @@ h1 { font-size: 28px; font-weight: 600; margin-bottom: 24px; letter-spacing: -0.
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 17px;
   flex-shrink: 0;
+  overflow: hidden;
 }
 .modal-info { flex: 1; padding-right: 32px; }
-.modal-name { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
-.modal-role { font-size: 14px; color: var(--muted); line-height: 1.4; }
-.modal-coords { font-size: 13px; color: var(--muted); margin-top: 10px; font-style: italic; line-height: 1.5; }
+.modal-name { font-size: 17px; font-weight: 600; margin-bottom: 3px; }
+.modal-role { font-size: 13px; color: var(--muted); line-height: 1.4; }
+.modal-coords { font-size: 12px; color: var(--muted); margin-top: 8px; font-style: italic; line-height: 1.5; }
 .modal-close {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 32px;
-  height: 32px;
+  top: 18px;
+  right: 18px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   border: none;
   background: var(--pink-fill);
   color: var(--pink-deep);
-  font-size: 18px;
+  font-size: 17px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -199,35 +217,71 @@ h1 { font-size: 28px; font-weight: 600; margin-bottom: 24px; letter-spacing: -0.
   transition: all 0.15s ease;
 }
 .modal-close:hover { background: var(--pink); color: white; }
-.modal-body { padding: 20px 32px 28px; overflow-y: auto; flex: 1; }
+.modal-body { padding: 18px 28px 26px; overflow-y: auto; flex: 1; }
 @media (max-width: 640px) { .modal-body { padding: 16px 20px 24px; } }
 
-.task-section { margin-top: 20px; }
+.task-section { margin-top: 18px; }
 .task-section:first-child { margin-top: 0; }
-.task-section h4 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border-soft); }
-.task-section h5 { font-size: 13px; font-weight: 600; color: var(--pink-deep); margin: 12px 0 6px; }
+.task-section h4 { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px solid var(--border-soft); }
 .task-section ul { list-style: none; padding: 0; }
-.task-section li { font-size: 13px; line-height: 1.5; padding: 4px 0 4px 16px; position: relative; color: var(--text); }
+.task-section li { font-size: 13px; line-height: 1.5; padding: 3px 0 3px 16px; position: relative; color: var(--text); }
 .task-section li::before { content: '·'; position: absolute; left: 4px; color: var(--pink); font-weight: 700; }
-.task-empty { color: var(--muted); font-style: italic; font-size: 14px; padding: 12px 0; }
+.task-empty { color: var(--muted); font-style: italic; font-size: 13px; padding: 10px 0; }
 
-/* Team placeholder */
 .placeholder {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 80px 20px;
+  padding: 70px 20px;
   background: var(--pink-fill);
   border-radius: 20px;
   text-align: center;
 }
-.placeholder-icon { font-size: 40px; margin-bottom: 16px; }
-.placeholder p { font-size: 15px; color: var(--pink-deep); max-width: 360px; line-height: 1.5; }
+.placeholder-icon { font-size: 36px; margin-bottom: 14px; }
+.placeholder p { font-size: 14px; color: var(--pink-deep); max-width: 340px; line-height: 1.5; }
+
+/* Team page */
+.members-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; }
+@media (max-width: 640px) { .members-grid { grid-template-columns: 1fr; gap: 12px; } }
+
+.member-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: border-color 0.15s ease;
+}
+.member-card:hover { border-color: var(--pink); }
+
+.member-card-header { display: flex; gap: 12px; align-items: center; }
+
+.member-avatar {
+  width: 46px; height: 46px; border-radius: 50%;
+  background: var(--pink-fill); color: var(--pink-deep);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600; font-size: 15px; flex-shrink: 0;
+  overflow: hidden;
+}
+.member-name-block { flex: 1; min-width: 0; }
+.member-name { font-size: 14px; font-weight: 600; line-height: 1.3; margin-bottom: 2px; }
+.member-role { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+.member-info { display: flex; flex-direction: column; gap: 7px; font-size: 13px; }
+.member-row { display: flex; gap: 10px; line-height: 1.4; align-items: flex-start; }
+.member-row-label { color: var(--muted); font-size: 12px; flex-shrink: 0; width: 64px; padding-top: 1px; }
+.member-row-val { color: var(--text); word-break: break-word; flex: 1; min-width: 0; }
+.member-row-val a { color: var(--text); text-decoration: none; }
+.member-row-val a:hover { color: var(--pink); }
+.member-note { color: var(--muted); font-style: italic; }
 </style>
 </head>
 <body>
 
+<div class="page">
 <header class="header">
   <img src="logo.png" alt="Cake School" class="logo" />
   <nav class="nav">
@@ -242,159 +296,179 @@ h1 { font-size: 28px; font-weight: 600; margin-bottom: 24px; letter-spacing: -0.
   <section id="structure" class="section active">
     <h1>Структура команды</h1>
     <div class="structure-wrap">
-      <svg viewBox="0 0 680 1060" xmlns="http://www.w3.org/2000/svg" width="100%">
-        <text x="40" y="22" font-size="12" fill="#6B655C">Основатели</text>
-        <rect x="195" y="30" width="130" height="56" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="260" y="56" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A">Алёна Сахарова</text>
-        <text x="260" y="74" text-anchor="middle" font-size="12" fill="#6B655C">основатель</text>
-        <rect x="355" y="30" width="130" height="56" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="420" y="56" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A">Алина Макарова</text>
-        <text x="420" y="74" text-anchor="middle" font-size="12" fill="#6B655C">основатель</text>
+      <svg viewBox="0 0 680 762" xmlns="http://www.w3.org/2000/svg" width="100%">
+        <!-- Founders -->
+        <rect x="195" y="18" width="130" height="40" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="260" y="38" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif">Алёна Сахарова</text>
+        <text x="260" y="52" text-anchor="middle" font-size="11" fill="#6B655C" font-family="Manrope, sans-serif">основатель</text>
+        <rect x="355" y="18" width="130" height="40" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="420" y="38" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif">Алина Макарова</text>
+        <text x="420" y="52" text-anchor="middle" font-size="11" fill="#6B655C" font-family="Manrope, sans-serif">основатель</text>
 
-        <line x1="260" y1="86" x2="260" y2="110" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="260" y1="98" x2="420" y2="98" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="420" y1="98" x2="420" y2="110" stroke="#B5B1A8" stroke-width="1"/>
+        <!-- Алёна → Саша, Катя -->
+        <line x1="260" y1="58" x2="260" y2="75" stroke="#B5B1A8" stroke-width="1"/>
+        <line x1="260" y1="67" x2="420" y2="67" stroke="#B5B1A8" stroke-width="1"/>
+        <line x1="420" y1="67" x2="420" y2="75" stroke="#B5B1A8" stroke-width="1"/>
 
-        <line x1="485" y1="56" x2="670" y2="56" stroke="#E78AAE" stroke-width="1" stroke-dasharray="4 3"/>
-        <line x1="670" y1="56" x2="670" y2="500" stroke="#E78AAE" stroke-width="1" stroke-dasharray="4 3"/>
-        <line x1="670" y1="500" x2="410" y2="500" stroke="#E78AAE" stroke-width="1" stroke-dasharray="4 3"/>
+        <!-- Алина → Саша, Катя — связь через основателей (см. выше) -->
 
-        <rect x="195" y="110" width="130" height="60" rx="10" fill="#FBEAF0" stroke="#E78AAE" stroke-width="1"/>
-        <text x="260" y="136" text-anchor="middle" font-size="14" font-weight="600" fill="#9B3A5E">Саша Большакова</text>
-        <text x="260" y="156" text-anchor="middle" font-size="12" fill="#9B3A5E">управляющий</text>
-        <rect x="355" y="110" width="130" height="60" rx="10" fill="#FBEAF0" stroke="#E78AAE" stroke-width="1"/>
-        <text x="420" y="136" text-anchor="middle" font-size="14" font-weight="600" fill="#9B3A5E">Катя Ашихмина</text>
-        <text x="420" y="156" text-anchor="middle" font-size="12" fill="#9B3A5E">маркетолог</text>
+        <!-- Leaders -->
+        <rect x="195" y="75" width="130" height="44" rx="10" fill="#FBEAF0" stroke="#E78AAE" stroke-width="1"/>
+        <text x="260" y="95" text-anchor="middle" font-size="13" font-weight="600" fill="#9B3A5E" font-family="Manrope, sans-serif">Саша Большакова</text>
+        <text x="260" y="111" text-anchor="middle" font-size="11" fill="#9B3A5E" font-family="Manrope, sans-serif">управляющий</text>
+        <rect x="355" y="75" width="130" height="44" rx="10" fill="#FBEAF0" stroke="#E78AAE" stroke-width="1"/>
+        <text x="420" y="95" text-anchor="middle" font-size="13" font-weight="600" fill="#9B3A5E" font-family="Manrope, sans-serif">Катя Ашихмина</text>
+        <text x="420" y="111" text-anchor="middle" font-size="11" fill="#9B3A5E" font-family="Manrope, sans-serif">маркетолог</text>
 
-        <line x1="260" y1="170" x2="260" y2="175" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="260" y1="175" x2="340" y2="175" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="340" y1="175" x2="340" y2="470" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="340" y1="530" x2="340" y2="790" stroke="#B5B1A8" stroke-width="1"/>
+        <!-- Магистраль Саши -->
+        <line x1="260" y1="119" x2="260" y2="127" stroke="#888781" stroke-width="2"/>
+        <line x1="260" y1="127" x2="340" y2="127" stroke="#888781" stroke-width="2"/>
+        <line x1="340" y1="127" x2="340" y2="356" stroke="#888781" stroke-width="2"/>
+        <line x1="340" y1="400" x2="340" y2="628" stroke="#888781" stroke-width="2"/>
 
-        <line x1="340" y1="190" x2="92" y2="190" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="92" y1="190" x2="92" y2="200" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="247" y1="190" x2="247" y2="200" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="340" y1="260" x2="92" y2="260" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="92" y1="260" x2="92" y2="270" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="247" y1="260" x2="247" y2="270" stroke="#B5B1A8" stroke-width="1"/>
+        <!-- Отвод к direct row 1 -->
+        <line x1="340" y1="127" x2="92" y2="127" stroke="#B5B1A8" stroke-width="1"/>
+        <line x1="92" y1="127" x2="92" y2="135" stroke="#B5B1A8" stroke-width="1"/>
+        <line x1="247" y1="127" x2="247" y2="135" stroke="#B5B1A8" stroke-width="1"/>
 
-        <line x1="340" y1="260" x2="505" y2="260" stroke="#E78AAE" stroke-width="1" stroke-dasharray="4 3"/>
+        <!-- Отвод к direct row 2 -->
+        <line x1="340" y1="222" x2="92" y2="222" stroke="#B5B1A8" stroke-width="1"/>
+        <line x1="92" y1="222" x2="92" y2="230" stroke="#B5B1A8" stroke-width="1"/>
+        <line x1="247" y1="222" x2="247" y2="230" stroke="#B5B1A8" stroke-width="1"/>
 
-        <rect x="20" y="200" width="145" height="60" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="92" y="226" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A">Настя Соловьёва</text>
-        <text x="92" y="246" text-anchor="middle" font-size="12" fill="#6B655C">приложение / My Cake</text>
-        <rect x="175" y="200" width="145" height="60" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="247" y="226" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A">Виктория Иванова</text>
-        <text x="247" y="246" text-anchor="middle" font-size="12" fill="#6B655C">Salebot</text>
+        <!-- Пунктир Саша → Асаль (в левый бок Асаль через зазор) -->
+        <line x1="260" y1="127" x2="345" y2="127" stroke="#E78AAE" stroke-width="1" stroke-dasharray="4 3"/>
+        <line x1="345" y1="127" x2="345" y2="238" stroke="#E78AAE" stroke-width="1" stroke-dasharray="4 3"/>
+        <line x1="345" y1="238" x2="430" y2="238" stroke="#E78AAE" stroke-width="1" stroke-dasharray="4 3"/>
 
-        <rect x="20" y="270" width="145" height="44" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="92" y="289" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A">Подрядчики</text>
-        <text x="92" y="306" text-anchor="middle" font-size="12" fill="#6B655C">сторонние</text>
-        <rect x="175" y="270" width="145" height="44" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="247" y="289" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A">Ира Флерова</text>
-        <text x="247" y="306" text-anchor="middle" font-size="12" fill="#6B655C">тех. спец.</text>
+        <!-- Sasha direct row 1 -->
+        <rect x="20" y="135" width="145" height="44" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="92" y="155" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif">Настя Соловьёва</text>
+        <text x="92" y="171" text-anchor="middle" font-size="11" fill="#6B655C" font-family="Manrope, sans-serif">приложение / My Cake</text>
+        <rect x="175" y="135" width="145" height="44" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="247" y="155" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif">Виктория Иванова</text>
+        <text x="247" y="171" text-anchor="middle" font-size="11" fill="#6B655C" font-family="Manrope, sans-serif">Salebot</text>
 
-        <line x1="340" y1="340" x2="85" y2="340" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="85" y1="340" x2="85" y2="350" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="225" y1="340" x2="225" y2="350" stroke="#B5B1A8" stroke-width="1"/>
+        <!-- Sasha direct row 2 -->
+        <rect x="20" y="230" width="145" height="36" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="92" y="246" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif">Подрядчики</text>
+        <text x="92" y="261" text-anchor="middle" font-size="11" fill="#6B655C" font-family="Manrope, sans-serif">сторонние</text>
+        <rect x="175" y="230" width="145" height="36" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="247" y="246" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif">Ира Флерова</text>
+        <text x="247" y="261" text-anchor="middle" font-size="11" fill="#6B655C" font-family="Manrope, sans-serif">тех. спец.</text>
 
-        <rect x="20" y="350" width="130" height="56" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="85" y="372" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A">Айна Сероедова</text>
-        <text x="85" y="392" text-anchor="middle" font-size="12" fill="#6B655C">бухгалтер</text>
-        <rect x="160" y="350" width="130" height="56" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="225" y="372" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A">Татьяна Ч.</text>
-        <text x="225" y="392" text-anchor="middle" font-size="12" fill="#6B655C">юрист</text>
+        <!-- Отвод к подряду -->
+        <line x1="340" y1="282" x2="85" y2="282" stroke="#B5B1A8" stroke-width="1"/>
+        <line x1="85" y1="282" x2="85" y2="290" stroke="#B5B1A8" stroke-width="1"/>
+        <line x1="225" y1="282" x2="225" y2="290" stroke="#B5B1A8" stroke-width="1"/>
 
-        <line x1="420" y1="170" x2="420" y2="185" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="425" y1="185" x2="585" y2="185" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="425" y1="185" x2="425" y2="200" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="585" y1="185" x2="585" y2="200" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="505" y1="185" x2="505" y2="260" stroke="#B5B1A8" stroke-width="1"/>
+        <!-- Подряд Саши -->
+        <rect x="20" y="290" width="130" height="44" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="85" y="310" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif">Айна Сероедова</text>
+        <text x="85" y="325" text-anchor="middle" font-size="11" fill="#6B655C" font-family="Manrope, sans-serif">бухгалтер</text>
+        <rect x="160" y="290" width="130" height="44" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="225" y="310" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif">Татьяна Ч.</text>
+        <text x="225" y="325" text-anchor="middle" font-size="11" fill="#6B655C" font-family="Manrope, sans-serif">юрист</text>
 
-        <line x1="425" y1="185" x2="425" y2="255" stroke="#E78AAE" stroke-width="1" stroke-dasharray="4 3"/>
-        <line x1="425" y1="255" x2="247" y2="255" stroke="#E78AAE" stroke-width="1" stroke-dasharray="4 3"/>
-        <line x1="247" y1="255" x2="247" y2="270" stroke="#E78AAE" stroke-width="1" stroke-dasharray="4 3"/>
+        <!-- Катя → direct -->
+        <line x1="420" y1="119" x2="420" y2="127" stroke="#888781" stroke-width="2"/>
+        <line x1="420" y1="127" x2="585" y2="127" stroke="#888781" stroke-width="2"/>
+        <line x1="425" y1="127" x2="425" y2="135" stroke="#888781" stroke-width="2"/>
+        <line x1="585" y1="127" x2="585" y2="135" stroke="#888781" stroke-width="2"/>
+        <line x1="505" y1="127" x2="505" y2="220" stroke="#888781" stroke-width="2"/>
 
-        <line x1="425" y1="244" x2="425" y2="350" stroke="#B5B1A8" stroke-width="1"/>
+        <!-- Пунктир Катя → Ира (через левый зазор, минуя Любу) -->
+        <line x1="420" y1="127" x2="330" y2="127" stroke="#E78AAE" stroke-width="1" stroke-dasharray="4 3"/>
+        <line x1="330" y1="127" x2="330" y2="248" stroke="#E78AAE" stroke-width="1" stroke-dasharray="4 3"/>
+        <line x1="330" y1="248" x2="320" y2="248" stroke="#E78AAE" stroke-width="1" stroke-dasharray="4 3"/>
 
-        <rect x="350" y="200" width="150" height="44" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="425" y="219" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A">Люба Солодкая</text>
-        <text x="425" y="236" text-anchor="middle" font-size="12" fill="#6B655C">реклама</text>
-        <rect x="510" y="200" width="150" height="44" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="585" y="219" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A">Настя Татарчук</text>
-        <text x="585" y="236" text-anchor="middle" font-size="12" fill="#6B655C">копирайтер</text>
-        <rect x="430" y="260" width="150" height="44" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="505" y="279" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A">Асаль Оськина</text>
-        <text x="505" y="296" text-anchor="middle" font-size="12" fill="#6B655C">контент</text>
-        <rect x="350" y="350" width="150" height="56" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="425" y="372" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A">Подрядчики</text>
-        <text x="425" y="392" text-anchor="middle" font-size="12" fill="#6B655C">по рекламе</text>
+        <!-- Люба → Подрядчики по рекламе -->
+        <line x1="425" y1="179" x2="425" y2="290" stroke="#888781" stroke-width="2"/>
 
-        <rect x="20" y="430" width="640" height="314" rx="16" fill="none" stroke="#D5D2CB" stroke-width="1" stroke-dasharray="5 4"/>
-        <text x="40" y="454" font-size="12" font-weight="600" fill="#6B655C">Отдел сопровождения</text>
+        <rect x="350" y="135" width="150" height="44" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="425" y="155" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif">Люба Солодкая</text>
+        <text x="425" y="171" text-anchor="middle" font-size="11" fill="#6B655C" font-family="Manrope, sans-serif">реклама</text>
+        <rect x="510" y="135" width="150" height="44" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="585" y="155" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif">Настя Татарчук</text>
+        <text x="585" y="171" text-anchor="middle" font-size="11" fill="#6B655C" font-family="Manrope, sans-serif">копирайтер</text>
+        <rect x="430" y="220" width="150" height="36" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="505" y="236" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif">Асаль Оськина</text>
+        <text x="505" y="251" text-anchor="middle" font-size="11" fill="#6B655C" font-family="Manrope, sans-serif">контент</text>
+        <rect x="350" y="290" width="150" height="44" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="425" y="310" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif">Подрядчики</text>
+        <text x="425" y="325" text-anchor="middle" font-size="11" fill="#6B655C" font-family="Manrope, sans-serif">по рекламе</text>
 
-        <rect x="270" y="470" width="140" height="60" rx="10" fill="#FBEAF0" stroke="#E78AAE" stroke-width="1"/>
-        <text x="340" y="496" text-anchor="middle" font-size="14" font-weight="600" fill="#9B3A5E">Лиза Истратова</text>
-        <text x="340" y="516" text-anchor="middle" font-size="12" fill="#9B3A5E">тимлид</text>
+        <!-- Зона сопровождения -->
+        <rect x="20" y="350" width="640" height="250" rx="14" fill="none" stroke="#D5D2CB" stroke-width="1" stroke-dasharray="5 4"/>
+        <text x="38" y="370" font-size="11" font-weight="600" fill="#6B655C" font-family="Manrope, sans-serif">ОТДЕЛ СОПРОВОЖДЕНИЯ</text>
 
-        <line x1="340" y1="548" x2="115" y2="548" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="340" y1="548" x2="565" y2="548" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="115" y1="548" x2="115" y2="560" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="265" y1="548" x2="265" y2="560" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="415" y1="548" x2="415" y2="560" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="565" y1="548" x2="565" y2="560" stroke="#B5B1A8" stroke-width="1"/>
+        <rect x="280" y="356" width="120" height="44" rx="10" fill="#FBEAF0" stroke="#E78AAE" stroke-width="1"/>
+        <text x="340" y="376" text-anchor="middle" font-size="13" font-weight="600" fill="#9B3A5E" font-family="Manrope, sans-serif">Лиза Истратова</text>
+        <text x="340" y="392" text-anchor="middle" font-size="11" fill="#9B3A5E" font-family="Manrope, sans-serif">тимлид</text>
 
-        <text x="115" y="574" text-anchor="middle" font-size="12" font-weight="600" fill="#444441">Видеограф</text>
-        <text x="265" y="574" text-anchor="middle" font-size="12" font-weight="600" fill="#444441">Кураторы КБК</text>
-        <text x="415" y="574" text-anchor="middle" font-size="12" font-weight="600" fill="#444441">КБК PRO</text>
-        <text x="565" y="574" text-anchor="middle" font-size="12" font-weight="600" fill="#444441">Кураторы курсов</text>
+        <!-- Лиза → подгруппы -->
+        <line x1="340" y1="418" x2="115" y2="418" stroke="#B5B1A8" stroke-width="1"/>
+        <line x1="340" y1="418" x2="565" y2="418" stroke="#B5B1A8" stroke-width="1"/>
+        <line x1="115" y1="418" x2="115" y2="428" stroke="#B5B1A8" stroke-width="1"/>
+        <line x1="265" y1="418" x2="265" y2="428" stroke="#B5B1A8" stroke-width="1"/>
+        <line x1="415" y1="418" x2="415" y2="428" stroke="#B5B1A8" stroke-width="1"/>
+        <line x1="565" y1="418" x2="565" y2="428" stroke="#B5B1A8" stroke-width="1"/>
 
-        <rect x="50" y="582" width="130" height="44" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="115" y="608" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A">Катя Макарова</text>
+        <text x="115" y="440" text-anchor="middle" font-size="11" font-weight="600" fill="#444441" font-family="Manrope, sans-serif">Видеограф</text>
+        <text x="265" y="440" text-anchor="middle" font-size="11" font-weight="600" fill="#444441" font-family="Manrope, sans-serif">Кураторы КБК</text>
+        <text x="415" y="440" text-anchor="middle" font-size="11" font-weight="600" fill="#444441" font-family="Manrope, sans-serif">КБК PRO</text>
+        <text x="565" y="440" text-anchor="middle" font-size="11" font-weight="600" fill="#444441" font-family="Manrope, sans-serif">Кураторы курсов</text>
 
-        <rect x="200" y="582" width="130" height="44" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="265" y="608" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A"><tspan fill="#E78AAE">✦</tspan> Ксюша З.</text>
-        <rect x="200" y="632" width="130" height="44" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="265" y="658" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A"><tspan fill="#E78AAE">✦</tspan> Кристина Л.</text>
+        <rect x="55" y="446" width="120" height="32" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="115" y="466" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif">Катя Макарова</text>
 
-        <rect x="350" y="582" width="130" height="44" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="415" y="608" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A">Анжелика Б.</text>
-        <rect x="350" y="632" width="130" height="44" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="415" y="658" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A">Нана Маргарян</text>
+        <rect x="205" y="446" width="120" height="32" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="265" y="466" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif"><tspan fill="#E78AAE">✦</tspan> Ксюша З.</text>
+        <rect x="205" y="484" width="120" height="32" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="265" y="504" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif"><tspan fill="#E78AAE">✦</tspan> Кристина Л.</text>
 
-        <rect x="500" y="582" width="130" height="44" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="565" y="608" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A">Ксения А.</text>
-        <rect x="500" y="632" width="130" height="44" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="565" y="658" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A"><tspan fill="#E78AAE">✦</tspan> Кристина К.</text>
-        <rect x="500" y="682" width="130" height="44" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="565" y="708" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A">Анастасия Д.</text>
+        <rect x="355" y="446" width="120" height="32" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="415" y="466" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif">Анжелика Б.</text>
+        <rect x="355" y="484" width="120" height="32" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="415" y="504" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif">Нана Маргарян</text>
 
-        <rect x="20" y="770" width="640" height="170" rx="16" fill="none" stroke="#D5D2CB" stroke-width="1" stroke-dasharray="5 4"/>
-        <text x="40" y="794" font-size="12" font-weight="600" fill="#6B655C">Отдел поддержки клиентов</text>
+        <rect x="505" y="446" width="120" height="32" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="565" y="466" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif">Ксения А.</text>
+        <rect x="505" y="484" width="120" height="32" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="565" y="504" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif"><tspan fill="#E78AAE">✦</tspan> Кристина К.</text>
+        <rect x="505" y="522" width="120" height="32" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="565" y="542" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif">Анастасия Д.</text>
+        <rect x="505" y="560" width="120" height="32" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="565" y="580" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif"><tspan fill="#E78AAE">✦</tspan> Настя С.</text>
 
-        <rect x="270" y="790" width="140" height="60" rx="10" fill="#FBEAF0" stroke="#E78AAE" stroke-width="1"/>
-        <text x="340" y="816" text-anchor="middle" font-size="14" font-weight="600" fill="#9B3A5E">Настя Дубай</text>
-        <text x="340" y="836" text-anchor="middle" font-size="12" fill="#9B3A5E">менеджер</text>
+        <!-- Зона поддержки -->
+        <rect x="20" y="620" width="640" height="138" rx="14" fill="none" stroke="#D5D2CB" stroke-width="1" stroke-dasharray="5 4"/>
+        <text x="38" y="640" font-size="11" font-weight="600" fill="#6B655C" font-family="Manrope, sans-serif">ОТДЕЛ ПОДДЕРЖКИ КЛИЕНТОВ</text>
 
-        <line x1="340" y1="850" x2="340" y2="862" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="105" y1="862" x2="555" y2="862" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="105" y1="862" x2="105" y2="872" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="255" y1="862" x2="255" y2="872" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="405" y1="862" x2="405" y2="872" stroke="#B5B1A8" stroke-width="1"/>
-        <line x1="555" y1="862" x2="555" y2="872" stroke="#B5B1A8" stroke-width="1"/>
+        <rect x="280" y="628" width="120" height="44" rx="10" fill="#FBEAF0" stroke="#E78AAE" stroke-width="1"/>
+        <text x="340" y="648" text-anchor="middle" font-size="13" font-weight="600" fill="#9B3A5E" font-family="Manrope, sans-serif">Настя Дубай</text>
+        <text x="340" y="664" text-anchor="middle" font-size="11" fill="#9B3A5E" font-family="Manrope, sans-serif">менеджер</text>
 
-        <rect x="35" y="872" width="140" height="40" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="105" y="896" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A">Аня Сахарова</text>
-        <rect x="185" y="872" width="140" height="40" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="255" y="896" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A"><tspan fill="#E78AAE">✦</tspan> Кристина Л.</text>
-        <rect x="335" y="872" width="140" height="40" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="405" y="896" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A"><tspan fill="#E78AAE">✦</tspan> Ксюша З.</text>
-        <rect x="485" y="872" width="140" height="40" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
-        <text x="555" y="896" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A"><tspan fill="#E78AAE">✦</tspan> Кристина К.</text>
+        <line x1="340" y1="672" x2="340" y2="684" stroke="#B5B1A8" stroke-width="1"/>
+        <line x1="105" y1="684" x2="555" y2="684" stroke="#B5B1A8" stroke-width="1"/>
+        <line x1="105" y1="684" x2="105" y2="694" stroke="#B5B1A8" stroke-width="1"/>
+        <line x1="255" y1="684" x2="255" y2="694" stroke="#B5B1A8" stroke-width="1"/>
+        <line x1="405" y1="684" x2="405" y2="694" stroke="#B5B1A8" stroke-width="1"/>
+        <line x1="555" y1="684" x2="555" y2="694" stroke="#B5B1A8" stroke-width="1"/>
 
-        <rect x="260" y="970" width="160" height="60" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1" stroke-dasharray="4 3"/>
-        <text x="340" y="993" text-anchor="middle" font-size="14" font-weight="600" fill="#2A2A2A">Марина Макаренкова</text>
-        <text x="340" y="1013" text-anchor="middle" font-size="12" fill="#6B655C">дизайн · задачи от всех</text>
+        <rect x="40" y="694" width="130" height="32" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="105" y="714" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif">Аня Сахарова</text>
+        <rect x="190" y="694" width="130" height="32" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="255" y="714" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif"><tspan fill="#E78AAE">✦</tspan> Кристина Л.</text>
+        <rect x="340" y="694" width="130" height="32" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="405" y="714" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif"><tspan fill="#E78AAE">✦</tspan> Ксюша З.</text>
+        <rect x="490" y="694" width="130" height="32" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="555" y="714" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif"><tspan fill="#E78AAE">✦</tspan> Кристина К.</text>
+
+        <!-- Marina (рядом с Подрядчиками по рекламе, без связей) -->
+        <rect x="520" y="290" width="140" height="44" rx="10" fill="white" stroke="#D5D2CB" stroke-width="1"/>
+        <text x="590" y="310" text-anchor="middle" font-size="13" font-weight="600" fill="#2A2A2A" font-family="Manrope, sans-serif">Марина М.</text>
+        <text x="590" y="325" text-anchor="middle" font-size="11" fill="#6B655C" font-family="Manrope, sans-serif">дизайнер · от всех</text>
       </svg>
     </div>
     <div class="legend"><strong>✦</strong> человек выполняет ещё одну роль · <span style="color:#E78AAE">— —</span> двойная связь</div>
@@ -402,18 +476,16 @@ h1 { font-size: 28px; font-weight: 600; margin-bottom: 24px; letter-spacing: -0.
 
   <section id="tasks" class="section">
     <h1>Задачи команды</h1>
-    <div class="tasks-grid" id="tasksGrid"></div>
+    <div id="tasksContainer"></div>
   </section>
 
   <section id="team" class="section">
     <h1>Команда</h1>
-    <div class="placeholder">
-      <div class="placeholder-icon">✦</div>
-      <p>Раздел в разработке. Скоро подключим данные о днях рождения и контактах команды.</p>
-    </div>
+    <div id="teamContainer"></div>
   </section>
 
 </main>
+</div>
 
 <div class="modal-backdrop" id="modalBackdrop">
   <div class="modal" id="modal">
@@ -431,44 +503,43 @@ h1 { font-size: 28px; font-weight: 600; margin-bottom: 24px; letter-spacing: -0.
 </div>
 
 <script>
-const PEOPLE = [
-  {
-    name: 'Саша Большакова',
-    role: 'Управляющий проекта',
-    coords: 'Команды в целом, тимлида сопровождения, администратора приложения, тех. специалиста по Salebot, тех. специалиста, бухгалтера, юриста, подрядчиков, менеджера по поддержке клиентов',
+const GROUPS = [
+  { title: 'Администрация', ids: ['sasha', 'katya'] },
+  { title: 'Технический отдел', ids: ['ira', 'nastya_s', 'viktoriya'] },
+  { title: 'Маркетинг и реклама', ids: ['lyuba', 'nastya_t', 'asal'] },
+  { title: 'Сопровождение', ids: ['liza', 'ksyusha', 'kristina_l', 'kristina_k', 'nastya_s', 'anzhelika', 'nana', 'kseniya', 'anastasiya'] },
+  { title: 'Поддержка клиентов', ids: ['nastya_d', 'anya', 'kristina_l', 'ksyusha', 'kristina_k'] },
+  { title: 'Подрядчики', ids: ['katya_m', 'ayna', 'tatyana', 'marina', 'reklama_contractors', 'other_contractors'] }
+];
+
+const PEOPLE = {
+  sasha: { name: 'Саша Большакова', role: 'Управляющий проекта',
+    coords: 'команды в целом, тимлида сопровождения, администратора приложения, тех. специалиста по Salebot, тех. специалиста, бухгалтера, юриста, подрядчиков, менеджера по поддержке клиентов',
     sections: [
-      { title: 'Операционное управление', items: ['Управление повседневной деятельностью школы', 'Распределение задач и контроль исполнения', 'Принятие решений по перераспределению ресурсов', 'Решение текущих операционных вопросов'] },
-      { title: 'Оргструктура и команда', items: ['Формирование и корректировка оргструктуры', 'Перераспределение ролей и зон ответственности', 'Адаптация сотрудников (договорённости, постановка задач, доступы, еженедельные созвоны)', 'Договорная работа с командой и подрядчиками', 'Разработка и обновление регламентов', 'Оптимизация процессов и взаимодействия отделов'] },
+      { title: 'Управление', items: ['Управление повседневной деятельностью школы', 'Распределение задач и контроль исполнения', 'Принятие решений по перераспределению ресурсов', 'Решение текущих операционных вопросов'] },
+      { title: 'Оргструктура и команда', items: ['Формирование и корректировка оргструктуры', 'Перераспределение ролей и зон ответственности', 'Кадровые решения', 'Адаптация сотрудников (договорённости, постановка задач, доступы, еженедельные созвоны)', 'Договорная работа с командой и подрядчиками', 'Разработка и обновление регламентов', 'Оптимизация процессов и взаимодействия отделов'] },
       { title: 'Финансы', items: ['Расчёт зарплат и премий', 'Подготовка платёжных назначений', 'Контроль ведения учётных таблиц'] },
       { title: 'Управление внедрением', items: ['Внедрение изменений в работе школы', 'Проработка идей: анализ реалистичности, сроков, рисков', 'Формирование ТЗ и постановка задач', 'Координация внедрения новых инструментов', 'Тестирование и контроль реализации', 'Передача процессов команде после внедрения'] },
-      { title: 'Запуски — организация и контроль', items: ['Организация подготовки к запуску (паспорт, чек-листы)', 'Постановка задач участникам запуска', 'Координация работы команды и контроль сроков', 'Обеспечение понимания этапов и формата запуска', 'Ответы команде и решение возникающих вопросов', 'Согласование дат, формата, наполнения и визуального стиля', 'Согласование цен, бонусов и механики продаж', 'Проверка готовности ботов, ЛК, веб-комнаты, презентаций', 'Финальная проверка запуска перед стартом'] },
-      { title: 'Запуски — ТЗ и коммуникация', items: ['Подготовка ТЗ для сайтов, ботов и технических решений', 'Сбор материалов для подготовки сайта (кейсы, отзывы, визуал и др.)', 'Постановка ТЗ по текстам и визуальным материалам', 'Взаимодействие с отделом заботы (подготовка/проверка регламента, созвон, помощь в работе)', 'Коммуникация с платёжными системами и подрядчиками', 'Поиск и подключение новых ПС, работа над снижением комиссий'] },
+      { title: 'Запуски — организация / согласование / контроль', items: ['Организация подготовки к запуску (паспорт, чек-листы)', 'Постановка задач участникам запуска', 'Координация работы команды и контроль сроков', 'Обеспечение понимания этапов и формата запуска', 'Ответы команде и решение возникающих вопросов', 'Согласование дат, формата, наполнения и визуального стиля', 'Согласование цен, бонусов и механики продаж', 'Проверка готовности ботов, ЛК, веб-комнаты, презентаций', 'Финальная проверка запуска перед стартом'] },
+      { title: 'Запуски — постановка ТЗ / коммуникация', items: ['Подготовка ТЗ для сайтов, ботов и технических решений', 'Сбор материалов для подготовки сайта (кейсы, отзывы, визуал и др.)', 'Постановка ТЗ по текстам и визуальным материалам', 'Взаимодействие с отделом заботы (подготовка/проверка регламента, созвон, помощь в работе)', 'Коммуникация с платёжными системами и подрядчиками', 'Поиск и подключение новых ПС, работа над снижением комиссий'] },
       { title: 'Запуски — финансы и аналитика', items: ['Подготовка договоров и документов (или постановка ТЗ бухгалтеру и юристу)', 'Расчёт стоимости тарифов, стоимости для ПП, дов. рассрочек на каждый этап запуска', 'Расчёт и согласование выплат команде', 'Сбор аналитики по запуску', 'Отчёт по результатам и работе команды, расчёт премий, согласование'] },
       { title: 'Запуски — нестандартные задачи', items: ['Поиск подрядчиков и координация доп. работ', 'Внедрение новых механик', 'Организация подготовки печатных материалов', 'Анализ ОС и инициирование доработок продукта'] },
-      { title: 'КБК — организация', items: ['Общая координация работы клуба, проверка корректности работы, ОС', 'Контроль команды и распределение задач', 'Решение текущих операционных вопросов'] },
-      { title: 'КБК — развитие и доработки', items: ['Внедрение новых механик и улучшений', 'Подготовка ТЗ программистам и подрядчикам', 'Тестирование внедрений', 'Сбор ОС и принятие решений по развитию'] },
-      { title: 'КБК — работа с подрядчиками', items: ['Взаимодействие со специалистами: написание ТЗ, уточнения, корректировки', 'Поиск идей по поставленным задачам', 'Контроль сроков и качества выполнения'] },
-      { title: 'КБК — продажи', items: ['Организация запуска продаж подписки', 'Координация подготовки и процессов продаж', 'Содержание сайта в актуальном виде (доработки по тексту и блокам)'] },
+      { title: 'Клуб богатых кондитеров', items: ['Общая координация работы клуба, проверка корректности работы, ОС', 'Контроль команды и распределение задач', 'Решение текущих операционных вопросов', 'Внедрение новых механик и улучшений', 'Подготовка ТЗ программистам и подрядчикам', 'Тестирование внедрений', 'Сбор ОС и принятие решений по развитию', 'Взаимодействие со специалистами: написание ТЗ, уточнения, корректировки', 'Поиск идей по поставленным задачам', 'Организация запуска продаж подписки', 'Координация подготовки и процессов продаж', 'Содержание сайта в актуальном виде (доработки по тексту и блокам)'] },
       { title: 'Приложение My Cake', items: ['Координация работы по приложению со стороны школы', 'Взаимодействие с программистами и куратором (созвоны, уточнения, буст задач)', 'Формирование ТЗ на доработки и утверждение обновлений', 'Тестирование обновлений', 'Сбор обратной связи и участие в принятии решений по дальнейшему развитию', 'Сбор постов по обновлению приложения', 'Информирование команды и пользователей об изменениях'] }
     ]
   },
-  {
-    name: 'Катя Ашихмина',
-    role: 'Маркетолог',
-    coords: 'Копирайтера, специалиста по рекламе, технического специалиста, подрядчиков по рекламе',
+  katya: { name: 'Катя Ашихмина', role: 'Маркетолог',
+    coords: 'копирайтера, специалиста по рекламе, технического специалиста, контент-менеджера, подрядчиков по рекламе',
     sections: [
-      { title: 'КБК — запуски', items: ['Подготовка ТЗ по воронке оплаты в боте, обновления воронок, содержание Миро в актуальном виде', 'Подготовка презентации для эфиров (Алёна/Алина)', 'Подготовка рассылок по эфиру (с копирайтером) + картинки', 'Составление плана прогрева на запуски'] },
-      { title: 'КБК — продажи', items: ['Реализация рекламных кампаний и достижение плана по регистрациям/продажам', 'Идеи по увеличению регистраций/продаж (по типу реф. программы на регистрацию)'] },
-      { title: 'КБК — следит/согласовывает', items: ['Ведение канала с контентом для кондитера', 'Описания рецептов в приложении', 'Рассылки и другие тексты по запросу копирайтера'] },
+      { title: 'Задачи общие', items: ['Помощь в подготовке презентаций для уроков (для Алины/Алёны)', 'Подготовка презентаций и запись уроков', 'Другие задачи по материалам от руководителя'] },
+      { title: 'Согласования / контроль', items: ['Канала с контентом для кондитера', 'Описания рецептов в приложении', 'Рассылки и другие тексты по запросу копирайтера'] },
+      { title: 'Клуб богатых кондитеров', items: ['Подготовка ТЗ по воронке оплаты в боте, обновления воронок, содержание Миро в актуальном виде', 'Подготовка презентации для эфиров (Алёна/Алина)', 'Подготовка рассылок по эфиру (с копирайтером) + картинки', 'Составление плана прогрева на запуски', 'Реализация рекламных кампаний и достижение плана по регистрациям/продажам', 'Доработка статей с копирайтером', 'Идеи по увеличению регистраций/продаж'] },
       { title: 'Запуски курсов', items: ['Подготовка плана продаж и согласование', 'Подготовка ТЗ для ботов предзаписи: основной, ПП', 'Закуп рекламы на вебинар (при необходимости), подготовка рекламы', 'Подготовка прогрева в канал запуска', 'Ведение ЗК запуска (посты, подбор отзывов)', 'План рассылок (с копирайтером): прогрев/вебинар/продажи/допродажи', 'Тексты для аудио/видео Алины', 'Подготовка ТЗ воронки на закрытие предзаписи', 'Кейсы для запуска (с кейсологом)', 'Подбор отзывов для прогрева', 'Презентации для эфиров', 'Подготовка сториз для каналов и аккаунтов помощников', 'Подготовка гайдов: с программой курса, подарочные гайды', 'Аналитика запуска', 'Подготовка марафона (с контент-менеджером)'] },
-      { title: 'Нестандартные задачи на запуске', items: ['Помощь в подготовке презентаций для уроков (для Алины/Алёны)', 'Подготовка презентаций и запись уроков'] },
       { title: 'Реклама — общее', items: ['Запуск рекламы на клуб', 'Запуск рекламы на ТГ/ВК, на подписку', 'Запуск рекламы на приложение CS', 'Запуск рекламы на приложение My Cake', 'Ежемесячная аналитика и отчёт по решениям по рекламным кампаниям'] }
     ]
   },
-  {
-    name: 'Лиза Истратова',
-    role: 'Тимлид отдела сопровождения',
-    coords: 'Видеографа, кураторов курсов, кураторов КБК',
+  liza: { name: 'Лиза Истратова', role: 'Тимлид отдела сопровождения',
+    coords: 'видеографа, кураторов курсов, кураторов КБК',
     sections: [
       { title: 'Клуб богатых кондитеров', items: ['Планирование материалов по рецептам в клуб, согласование с Алиной', 'Написание и согласование ТК + отработка при необходимости', 'Планирование съёмок совместно с видеографом, заказ инвентаря и продуктов', 'Оповещение видеографа о планировании новых рецептов', 'Организация эфиров со спикерами (коммуникация, подготовка презентации, тестовый эфир ОБС, запрос картинок, сообщения, запуск эфира)', 'Поиск новых идей по рецептам и трендам', 'Согласование ежемесячного плана клуба', 'Контроль работы кураторов клуба (КБК и КБК PRO): ответы в чатах, ответы в приложении, отзывы'] },
       { title: 'Запуски', items: ['Анализ ОС прошлого запуска, предложения по улучшениям', 'Идеи по бонусным рецептам', 'Общение по ТК с Алиной, корректировки', 'Общение с магазинами-партнёрами, запрос промокодов, поиск новых партнёров', 'Подготовка плана рассылок', 'Стартовое заполнение канала и чатов, ведение канала', 'Проведение еженедельных активностей на курсе', 'Подготовка презентаций: вводный эфир, выпускной', 'Подготовка списка на розыгрыш, подбор подарков', 'Распределение кураторов, курирование отработок, проведение вводных созвонов', 'Видеообзор курса в приложении', 'Расчёт дат на обучении', 'Ежедневный мониторинг чатов', 'Сбор вопросов для подкаста «вопрос-ответ»', 'Согласование кураторов, запрос договоров, планирование оплат', 'Поиск и адаптация стажёров (при необходимости)'] },
@@ -476,10 +547,7 @@ const PEOPLE = [
       { title: 'Дополнительно', items: ['Организация поздравления сотрудников (цветы + подарок)', 'Поиск и проведение обучений для кураторов (тестирование, созвоны)', 'Подготовка отчёта по окончании обучения'] }
     ]
   },
-  {
-    name: 'Настя Соловьёва',
-    role: 'Администратор приложения · Куратор My Cake',
-    coords: '',
+  nastya_s: { name: 'Настя Соловьёва', role: 'Администратор приложения · Куратор My Cake', coords: '',
     sections: [
       { title: 'Общая работа по приложению', items: ['Сбор обновлений и тестирование обновлений приложения', 'Проверка корректности работы приложения', 'Взаимодействие с программистами по работе приложения', 'Содержание материалов приложения в актуальном виде', 'Открытие уроков по почтам (по запросу)', 'Публикация карт в приложении (по запросу)', 'Отправление пушей по сегментам (по запросу)', 'Публикация уведомлений в приложении', 'Публикация «Иконка + Сториз»', 'Публикация расписания курсов', 'Публикация уведомления в «Мои курсы» по сегментам (например, для ПП)'] },
       { title: 'Работа по клубу', items: ['Своевременная публикация рецептов в БЗ согласно установленному контент-плану', 'Содержание паспорта КБК в актуальном виде', 'Контроль загрузки эфиров, статей, рилсов и т.д. в приложение', 'Коммуникация с разработчиками приложения по доработкам клуба', 'Заполнение курсов КБК PRO (примерно 1 раз в 3 мес)', 'Заполнение мини-курсов (1 раз в месяц)', 'Заполнение статей (3–4 статьи в месяц)', 'Заполнение рецептов (4–5 раз в месяц)', 'Загрузка и публикация видео по пройденному эфиру (1–2 раза в месяц)', 'Добавление КП в клуб (1 раз в месяц)', 'Заполнение и публикация дайджеста (по запросу, 4–5 раз в неделю)', 'Заполнение раздела «Находки» (1 раз в месяц)', 'Публикация видео в раздел «Тренды» (1 раз в месяц)', 'Поиск багов, улучшений, тестирование, внесение доработок', 'Проверка работоспособности опросов, открытие уроков по ОС'] },
@@ -489,10 +557,7 @@ const PEOPLE = [
       { title: 'Куратор My Cake', items: ['Полное понимание работы приложения', 'Поддержка пользователей приложения, решение возникающих вопросов', 'Сбор доработок и пожеланий', 'Тестирование приложения', 'Возврат оплаты за подписку'] }
     ]
   },
-  {
-    name: 'Асаль Оськина',
-    role: 'Контент-менеджер',
-    coords: '',
+  asal: { name: 'Асаль Оськина', role: 'Контент-менеджер', coords: '',
     sections: [
       { title: 'Клуб богатых кондитеров', items: ['Составление контент-плана для информационного канала клуба', 'Создание примера контент-плана на месяц с учётом праздников', 'Ежемесячное планирование клуба (идеи по курсам и рецептам, составление плана)', 'Создание дайджеста на месяц/полгода', 'Ведение канала клуба ТГ + МАХ', 'Проведение ежемесячной активности «ямолодец» КБК', 'Поиск трендов (десерты, упаковка и т.д.)', 'Помощь в составлении статей по продажам', 'Организация монтажа рилс (сбор фото, ТЗ подрядчику, проверка)', 'Подбор материалов по запросу', 'Проверка публикации дайджестов'] },
       { title: 'Канал «Контент для кондитера»', items: ['Прожарка контента', 'Идеи рилс + тексты для постов', 'Ответы на вопросы под постами', 'Кросспостинг в МАХ'] },
@@ -502,28 +567,19 @@ const PEOPLE = [
       { title: 'Другое', items: ['Кросспостинг канала Cake School в МАХ', 'Сбор аналитики по аккаунту приложения'] }
     ]
   },
-  {
-    name: 'Ира Флерова',
-    role: 'Технический специалист',
-    coords: '',
+  ira: { name: 'Ира Флерова', role: 'Технический специалист', coords: '',
     sections: [
       { title: 'По запуску курса', items: ['Выгрузка списков учеников, составление списков согласно ТЗ', 'Обновление и открытие предзаписи', 'Создание списков в Тильде и Сендсей', 'Подготовка страниц для оплаты: ПП, дов. рассрочки', 'Подключение интеграций: письмо, СМС, открытие курса, попадание в разные списки', 'Подготовка рассылок: СМС, звонок, уведомления, бот', 'Вёрстка ботов: бот учеников, бот по заработку, бот для оплаты ПП, бот по выдаче подарка на вебинаре и другие доп. боты', 'Запрос всех картинок для бота у дизайнера', 'Настройки вебинарной комнаты и трансляции', 'Тестирование оплат совместно с бухгалтером', 'Аналитика вебинаров', 'Смена блоков на сайтах каждый день по течению продаж (изменение воронок, «оставьте заявку», «продажи закрыты» и т.д.)', 'Закрытие регистраций, предзаписи и продаж', 'Организация эфиров на курсах (выпускной, вводный)', 'Отправка уведомлений на курсах согласно расписанию'] },
       { title: 'Еженедельные задачи', items: ['Поддержка в актуальном состоянии Тильды: распределение сайтов по папкам', 'Контроль оплат всех сервисов', 'Работа с подрядчиками по тех. части (доп. боты, интеграции, автоматизация)', 'Корректировки воронок (по скачиванию приложения, по рекламе и т.д.)', 'Создание новых воронок в боте'] }
     ]
   },
-  {
-    name: 'Виктория Иванова',
-    role: 'Тех. специалист по Salebot и автоматизации',
-    coords: '',
+  viktoriya: { name: 'Виктория Иванова', role: 'Тех. специалист по Salebot и автоматизации', coords: '',
     sections: [
       { title: 'Работа клуба богатых кондитеров', items: ['Полное понимание работы подписной модели в Salebot', 'Обновление и доработка воронки согласно заданию', 'Решение ежедневных технических вопросов по работе подписки'] },
       { title: 'Автоматизация по запросу', items: ['Создание дашборда оплат по КБК', 'Создание дашборда оплат по запускам', 'Создание дашборда по подписчикам клуба и переходам с бонусной подписки в платную', 'Создание дашборда по пользователям в Salebot'] }
     ]
   },
-  {
-    name: 'Люба Солодкая',
-    role: 'Специалист по рекламе',
-    coords: '',
+  lyuba: { name: 'Люба Солодкая', role: 'Специалист по рекламе', coords: '',
     sections: [
       { title: 'Реклама', items: ['Поиск блогеров и пабликов для публикации рекламы', 'Создание креативов, согласование', 'Заключение договоров согласно шаблону', 'Загрузка договоров, актов, счетов и чеков (сбор чеков у СЗ)', 'Внесение данных подрядчиков, договоров, маркировка рекламы в ВК ОРД', 'Ведение таблицы по рекламе'] },
       { title: 'Работа со статистикой', items: ['Создание UTM-меток', 'Ежедневное заполнение статистики по: количеству регистраций в приложении, запросов в ИГ по кодовым словам', 'Сбор статистики по завершённым мероприятиям (регистрации, покупки) и добавление её в паспорт запуска', 'Ведение сводной таблицы по рекламе (включая подрядчиков)', 'Предоставление данных статистики подрядчикам (Мария Таргет, Павел)', 'Сбор статистики по % открываемости писем', 'Ежемесячное заполнение данных по приросту подписчиков в соцсетях и пользователей приложения'] },
@@ -532,139 +588,199 @@ const PEOPLE = [
       { title: 'Общее', items: ['Работа в Threads: публикация тредсов, ответы на комментарии под нашими постами, комментарии на посты кондитеров', 'Дублирование контента в каналы школы: TikTok, YouTube, Pinterest, ВК', 'Переводы с карты, ведение таблицы переводов', 'Транскрипт эфиров'] }
     ]
   },
-  {
-    name: 'Настя Дубай',
-    role: 'Менеджер по поддержке клиентов',
-    coords: 'Помощника по поддержке клиентов, помощников на запуски',
+  nastya_d: { name: 'Настя Дубай', role: 'Менеджер по поддержке клиентов',
+    coords: 'помощника по поддержке клиентов, помощников на запуски',
     sections: [
       { title: 'Основное', items: ['Коммуникация с клиентами (ответы в ИГ, почта, ВК): помощь в оплатах, ответы на вопросы, проблемы с сайтом', 'Организация доставки подарков после розыгрышей на курсах: связаться с победителями, получить адреса, отправить подарки, отправить коды для получения', 'Отчёт 1–2 числа об оплатах на карты'] },
       { title: 'Запуски', items: ['Осведомление помощников о датах запуска и необходимой работе', 'Подготовка регламента ответов', 'Расчёт цен по альтернативным ручным оплатам', 'Занесение шаблонов ответов в АМО', 'Подготовка сообщений для отправки по запуску (по предзаписи, не прошла оплата, оставили заявку и т.д.)', 'Выгрузка таблиц с предзаписью, регистрациями, оплатами', 'Ответы на вопросы клиентов после вебинара — доведение клиентов до покупки курса (неуспешные оплаты, проблемы, ручные оплаты, вопросы)', 'Пополнение WhatsApp через Любу', 'Заполнение аналитики по запускам', 'Работа по доверительным рассрочкам'] },
       { title: 'Особые запуски', items: ['Доставка подарков для клиентов после рекламных акций (заказ расходников, упаковщицы, работа со СДЭК, сбор адресов)', 'Организация получения дипломов учениками БК (сбор данных, заказ, отправка дипломов)'] }
     ]
   },
-  {
-    name: 'Кристина Лобанова',
-    role: 'Помощник поддержки · Куратор КБК мини-курсы',
-    coords: '',
+  kristina_l: { name: 'Кристина Лобанова', role: 'Помощник поддержки · Куратор КБК мини-курсы', coords: '',
     sections: [
       { title: 'Помощник поддержки', items: ['Поиск сливов', 'Проверка формы «Пожаловаться»', 'Анализ обратной связи в формах онлайн-курсов', 'Мониторинг чатов до закрытия', 'Контроль и ответы в каналах аккаунта помощника', 'Чат выпускников БК', 'ВК-отзывы: проверка 1 раз в неделю', 'Ответы в АМО в сб и вс', 'Ответы на комментарии в ВК', 'Помощь в ответах кураторам участникам чатов от аккаунта школы', 'Наблюдение за чатами по отсутствию выложенных рецептов в чаты'] },
       { title: 'Куратор КБК мини-курсы', items: ['Модерация общего чата (ТГ/МАХ)', 'Модерация канала и чата клуба', 'Ответы на комментарии в БЗ (2/2)'] }
     ]
   },
-  {
-    name: 'Аня Сахарова',
-    role: 'Мл. помощник в отделе заботы',
-    coords: '',
+  anya: { name: 'Аня Сахарова', role: 'Мл. помощник в отделе заботы', coords: '',
     sections: [
       { title: 'Постоянно', items: ['Отправка приветственного СМС новым подписчикам в ИГ', 'Ответы на комментарии в ИГ приложения школы на кодовые слова', 'Работа со справками для налогового вычета: выгрузка новых справок, проставление цен'] },
       { title: 'На запуске', items: ['Рассылки через WhatsApp', 'Рассылки вручную', 'Чистка АМО (при необходимости)', 'Отправка трек-номеров и разные таблички по запросу'] },
       { title: 'Дополнительно', items: ['Составление таблицы для накладных'] }
     ]
   },
-  {
-    name: 'Ксюша Загоруйко',
-    role: 'Куратор КБК мини-курсы',
-    coords: '',
+  ksyusha: { name: 'Ксюша Загоруйко', role: 'Куратор КБК мини-курсы', coords: '',
     sections: [
       { title: 'Основное', items: ['Модерация общего чата (ТГ/МАХ)', 'Модерация канала и чата клуба', 'Ответы на комментарии в БЗ (2/2)'] },
       { title: 'Дополнительно', items: ['Проверка ДЗ на мини-курсах (Пасха, Десерты, Моти, Распродажа)', 'Кейсолог на запуск: сбор кейсов по запуску, сбор фото/отзывов по запуску, лучшие отзывы', 'Канал «Супергерои»'] }
     ]
   },
-  {
-    name: 'Анжелика Богословская',
-    role: 'Куратор КБК PRO',
-    coords: '',
-    sections: [
-      { title: 'Основное', items: ['Модерация общего чата (ТГ/МАХ)'] }
-    ]
+  anzhelika: { name: 'Анжелика Богословская', role: 'Куратор КБК PRO', coords: '',
+    sections: [ { title: 'Основное', items: ['Модерация общего чата (ТГ/МАХ)'] } ]
   },
-  {
-    name: 'Нана Маргарян',
-    role: 'Куратор КБК PRO',
-    coords: '',
-    sections: [
-      { title: 'Основное', items: ['Модерация общего чата (ТГ/МАХ)'] }
-    ]
+  nana: { name: 'Нана Маргарян', role: 'Куратор КБК PRO', coords: '',
+    sections: [ { title: 'Основное', items: ['Модерация общего чата (ТГ/МАХ)'] } ]
   },
-  {
-    name: 'Ксения Абрамович',
-    role: 'Куратор курсов',
-    coords: '',
-    sections: []
-  },
-  {
-    name: 'Кристина Кузикова',
-    role: 'Куратор курсов · Помощник поддержки',
-    coords: '',
-    sections: []
-  },
-  {
-    name: 'Анастасия Добровольская',
-    role: 'Куратор курсов',
-    coords: '',
-    sections: []
-  },
-  {
-    name: 'Алёна Коровина',
-    role: 'Мл. куратор',
-    coords: '',
-    sections: []
-  },
-  {
-    name: 'Александра Одноорокова',
-    role: 'Мл. куратор',
-    coords: '',
-    sections: []
-  },
-  {
-    name: 'Айна Сероедова',
-    role: 'Бухгалтер',
-    coords: '',
+  kseniya: { name: 'Ксения Абрамович', role: 'Куратор курсов', coords: '', sections: [] },
+  kristina_k: { name: 'Кристина Кузикова', role: 'Куратор курсов · Помощник поддержки', coords: '', sections: [] },
+  anastasiya: { name: 'Анастасия Добровольская', role: 'Куратор курсов', coords: '', sections: [] },
+  tatyana: { name: 'Татьяна Чемидова', role: 'Юрист', coords: '', sections: [] },
+  ayna: { name: 'Айна Сероедова', role: 'Бухгалтер', coords: '',
     sections: [
       { title: 'Еженедельные задачи', items: ['Возвраты по запросу поддержки', 'Оплаты подрядчикам по рекламе', 'Ежедневное внесение учётных операций в СБИС', 'Подготовка счетов на оплату к подписи в банке', 'Ведение таблицы учёта расходов', 'Подготовка документов для оплаты подрядчикам', 'Выдача справок об образовании для получения налогового вычета', 'Переводы на карту по запросу', 'Заполнение еженедельного отчёта по продажам КБК', 'Ручное заполнение отчёта комиссионера по отчётам агентов', 'Ежемесячное закрытие взаиморасчётов с поставщиками (ИП Макарова, ИП Сахарова)', 'Расчёт и оплата налогов'] },
       { title: 'Запуски', items: ['Тест оплат', 'Заполнение аналитики по запуску', 'Создание ссылок на оплату при необходимости', 'Проведение возвратов и доплат'] }
     ]
   },
-  {
-    name: 'Катя Макарова',
-    role: 'Видеограф',
-    coords: '',
+  katya_m: { name: 'Катя Макарова', role: 'Видеограф', coords: '',
     sections: [
       { title: 'Основное', items: ['Съёмка рецептов и мини-курсов в клуб по согласованному плану с тимлидом', 'Передача фото- и видеоматериалов по рецептам в оговорённые сроки', 'Съёмка рецептов для онлайн-курсов по согласованному плану с Алиной'] }
     ]
-  }
+  },
+  reklama_contractors: { name: 'Подрядчики по рекламе', role: 'Сторонние', coords: '', sections: [] },
+  other_contractors: { name: 'Остальные подрядчики', role: 'Сторонние', coords: '', sections: [] },
+  marina: { name: 'Марина Макаренкова', role: 'Дизайнер', coords: '', sections: [] },
+  nastya_t: { name: 'Настя Татарчук', role: 'Копирайтер', coords: '', sections: [] }
+};
+
+const TEAM_MEMBERS = {
+  alina_m: { name: 'Алина Макарова', role: 'Директор', email: 'amakarova1907@gmail.com', phone: '8-962-966-82-52', tg: '@alinamakarovaa', bday: '19 июля', address: 'Доватора, 12, 12' },
+  alyona_s: { name: 'Алёна Сахарова', role: 'Директор', email: 'alena@cakesteam.com', phone: '8-921-449-57-71', tg: '@saharova_alena', bday: '24 сентября', address: 'Комсомольский, 42с2, 28' },
+  sasha: { name: 'Александра Большакова', role: 'Управляющий проекта', email: 'project@cakesteam.com', phone: '8-911-723-08-86', tg: '@Aleksandrablsh', bday: '20 ноября', address: 'г. СПб, ул. Александра Матросова, д. 3, кв. 649' },
+  katya: { name: 'Екатерина Ашихмина', role: 'Маркетолог', email: 'marketing@cakesteam.com', phone: '8-950-008-39-64', tg: '@kitkate_smm', bday: '4 мая', address: 'г. СПб, Планерная, 73к6, кв. 65' },
+  ira: { name: 'Ирина Флерова', role: 'Технический специалист', email: 'tech@cakesteam.com', phone: '8-909-591-10-98', tg: '@irina_flerova', bday: '9 мая', address: 'ЛО, г. Всеволожск, ул. Коралловская, д. 14, корп. 2, кв. 28' },
+  liza: { name: 'Елизавета Истратова', role: 'Тимлид отдела сопровождения', email: 'leadkurator@cakesteam.com', phone: '8-938-310-11-88', tg: '@elisa_ist', bday: '11 ноября', address: 'г. Москва, Шелепихинская наб., 34к2с1, 210' },
+  nastya_s: { name: 'Анастасия Соловьёва', role: 'Администратор приложения · куратор курсов', email: 'admin@cakesteam.com', phone: '8-996-927-67-69', tg: '@teramsu', bday: '2 марта', address: '152470, Ярославская обл., г. Любим, ул. Луначарского, д. 17' },
+  asal: { name: 'Асаль Оськина', role: 'Контент-специалист', email: 'smm@cakesteam.com', phone: '8-929-523-27-39', tg: '@syubaeva', bday: '4 мая', address: 'Мос. область, СНТ Истра ГУВД г. Москвы, Центральная, 38' },
+  ksyusha: { name: 'Ксения Загоруйко', role: 'Комьюнити-менеджер · куратор КБК', email: 'community@cakesteam.com', phone: '8-987-008-92-68', tg: '@zagorksenia', bday: '19 ноября', address: 'Республика Татарстан, г. Набережные Челны, ул. Николая Мальнева, 3, кв. 263' },
+  lyuba: { name: 'Любовь Солодкая', role: 'Специалист по рекламе', email: 'add@cakesteam.com', phone: '8-985-871-31-82', tg: '@lubasha_s23', bday: '23 июня', address: 'г. Москва, Шипиловская ул., д. 42/30, кв. 32' },
+  nastya_d: { name: 'Анастасия Скородумова', role: 'Менеджер по работе с клиентами', email: 'sales@cakesteam.com', phone: '8-929-952-46-08', tg: '@anastasiya399', bday: '4 февраля', address: 'Dubai, 971521426282' },
+  kristina_l: { name: 'Кристина Лобанова', role: 'Куратор КБК', email: 'cakebyk19@gmail.com', phone: '89344443636', tg: '@cake_by_k', bday: '18 января', address: '108852, г. Москва, г. Щербинка, ул. Космонавтов, д. 2, кв. 27' },
+  anya: { name: 'Анна Сахарова', role: 'Помощник в работе с клиентами', email: 'a.saharova2002@gmail.com', phone: '79211809466', tg: '@Stellatoo', bday: '25 мая', address: 'Вологодская обл., Череповецкий р-н, д. Ирдоматка, ул. Высокая, 18' },
+  nastya_t: { name: 'Анастасия Татарчук', role: 'Копирайтер', email: 'text@cakesteam.com', phone: '89110812489', tg: '@taa1102', bday: '11 февраля', address: 'Петрозаводск, Мичуринская, д. 37, кв. 135' },
+  marina: { name: 'Марина Макаренкова', role: 'Дизайнер', email: 'design@cakesteam.com', phone: '8-931-963-88-21', tg: '@makarenkovams', bday: '10 апреля', address: 'Ульяновская обл., г. Димитровград, ул. Гвардейская, д. 45, кв. 50' },
+  katya_m: { name: 'Екатерина Макарова', role: 'Фотограф/Видеограф', email: 'Makarova.daily@gmail.com', phone: '79162479893', tg: '@katerinamakarovaa', bday: '23 сентября', address: 'Химки, ул. Мельникова, 7, кв. 319' },
+  ayna: { name: 'Айна Сероедова', role: 'Бухгалтер', email: 'finance@cakesteam.com', phone: '8-961-062-54-65', tg: '@ainafin', bday: '24 августа', address: 'Волгоград, ул. Бурейская, 2б, кв. 52' },
+  tatyana: { name: 'Татьяна Чемидова', role: 'Юрист', email: 'chemidova.tatyana@gmail.com', phone: '7916 647-81-30', tg: '@chemidovaadvokat' },
+  kseniya: { name: 'Ксения Абрамович', role: 'Куратор', email: 'K_abram@inbox.ru', phone: '8-916 482-40-74', tg: '@Rock_Cake', bday: '9 мая', address: '115516, г. Москва, ул. Севанская, 46, к. 4, кв. 2' },
+  anzhelika: { name: 'Анжелика Богословская', role: 'Куратор', email: 'pekovabobro@gmail.com', phone: '89282520352', tg: '@Anzhelika_Bog', bday: '10 февраля', address: '355016, г. Ставрополь, ул. Чапаева, 4/1д, кв. 33' },
+  kristina_k: { name: 'Кристина Кузикова', role: 'Куратор', email: 'kkyzikova@gmail.com', phone: '89040252935', tg: '@kydryashka_sue', bday: '16 июня', address: '170021, г. Тверь, ул. Кольцевая, д. 78, кв. 96' },
+  nana: { name: 'Нана Маргарян', role: 'Куратор', email: 'nanamargaryan95@gmail.com', phone: '89670132242', tg: '@emmi_cake', bday: '16 ноября', address: '111396, Москва, ул. Алексея Дикого, 20, кв. 128' },
+  anastasiya: { name: 'Анастасия Добровольская', role: 'Куратор', email: 'anastas1306@gmail.com', phone: '89201111804', tg: '@anastasia_dobro13', bday: '13 июня', address: '603105, г. Нижний Новгород, ул. Ижорская, д. 34, кв. 5' },
+  alyona_k: { name: 'Алёна Коровина', role: 'Мл. куратор', email: 'alenchikkorovina88@gmail.com', phone: '8 908 15 70 287', tg: '@by_alena_korovina', bday: '24 ноября', address: 'Нижегородская обл., г. Володарск, ул. Фрунзе, 42' },
+  aleksandra_o: { name: 'Александра Однооркова', role: 'Мл. куратор', email: 'alexodnoorkova@gmail.com', phone: '7(906) 075-59-59', tg: '@AlexOdnoorkova', bday: '9 июля', address: 'Москва, ул. Советской Армии, д. 7, кв. 175' },
+  sergey: { name: 'Сергей', role: 'Программист', tg: '@oper2k_work' },
+  igor: { name: 'Игорь', role: 'Программист', tg: '@unwaye', note: 'Помогает настраивать оплаты, уходим с сотрудничества' },
+  andrey: { name: 'Андрей Волкоедов', role: 'Специалист по Salebot', phone: '8-982-937-47-07', tg: '@obzen7' },
+  brayan: { name: 'Брайан Даби', role: 'Программист', tg: '@BryanxDaby', note: 'Делал бота для My Cake, колесо фортуны в 2024 году, html для писем' },
+  taras: { name: 'Тарас', role: '—', note: 'Удаляет курсы из складчины. Настя оплачивает ему криптовалютой' },
+  dmitriy: { name: 'Дмитрий Леншин', role: 'Тех. специалист', tg: '@DLenshin', note: 'Делал вёрстку комнаты бизона по ТЗ дизайнера' },
+  nikolay: { name: 'Николай', role: 'Видеомонтаж и моушен-дизайн', tg: '@NKVLV', note: 'Делал видеоролик с колесом и подарками на распродажу. Получилось качественно' },
+  ets: { name: 'Без имени', role: 'Быстро продлевает ЭЦП', tg: '@bastdost' },
+  video_montaj: { name: 'Без имени', role: 'Монтаж видео', tg: '@Videoffice', note: 'Делали с ними монтаж интервью, но нужно давать чёткое ТЗ и дизайн' }
+};
+
+const TEAM_GROUPS = [
+  { title: 'Администрация', ids: ['alina_m', 'alyona_s', 'sasha', 'katya'] },
+  { title: 'Технический отдел', ids: ['ira', 'nastya_s'] },
+  { title: 'Маркетинг и реклама', ids: ['lyuba', 'nastya_t', 'asal'] },
+  { title: 'Сопровождение', ids: ['liza', 'ksyusha', 'kristina_l', 'kristina_k', 'nastya_s', 'anzhelika', 'nana', 'kseniya', 'anastasiya', 'alyona_k', 'aleksandra_o'] },
+  { title: 'Поддержка клиентов', ids: ['nastya_d', 'anya', 'kristina_l', 'ksyusha', 'kristina_k'] },
+  { title: 'Подрядчики', ids: ['katya_m', 'ayna', 'tatyana', 'marina', 'sergey', 'igor', 'andrey', 'brayan', 'taras'] },
+  { title: 'Дополнительные контакты', ids: ['dmitriy', 'nikolay', 'ets', 'video_montaj'] }
 ];
 
-// Инициалы для аватарок
+function renderTeam() {
+  const container = document.getElementById('teamContainer');
+  container.innerHTML = TEAM_GROUPS.map(g => `
+    <div class="people-section">
+      <h2 class="group-title">${g.title}</h2>
+      <div class="members-grid">
+        ${g.ids.map(id => {
+          const m = TEAM_MEMBERS[id];
+          if (!m) return '';
+          return renderMemberCard(m, id);
+        }).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderMemberCard(m, id) {
+  const rows = [];
+  if (m.tg) rows.push(['Telegram', `<a href="https://t.me/${m.tg.replace('@','')}" target="_blank" rel="noopener">${m.tg}</a>`]);
+  if (m.phone) rows.push(['Телефон', `<a href="tel:${m.phone.replace(/[^+0-9]/g,'')}">${m.phone}</a>`]);
+  if (m.email) rows.push(['Email', `<a href="mailto:${m.email.trim()}">${m.email}</a>`]);
+  if (m.bday) rows.push(['ДР', m.bday]);
+  if (m.address) rows.push(['Адрес', m.address]);
+  if (m.note) rows.push(['Заметка', `<span class="member-note">${m.note}</span>`]);
+  return `
+    <div class="member-card">
+      <div class="member-card-header">
+        ${renderAvatar(id, m.name, 'member-avatar')}
+        <div class="member-name-block">
+          <div class="member-name">${m.name}</div>
+          <div class="member-role">${m.role}</div>
+        </div>
+      </div>
+      ${rows.length ? `<div class="member-info">${rows.map(([k, v]) => `<div class="member-row"><span class="member-row-label">${k}</span><span class="member-row-val">${v}</span></div>`).join('')}</div>` : ''}
+    </div>
+  `;
+}
+
+const PHOTOS = {};
+
+function renderAvatar(id, name, cls) {
+  const photo = PHOTOS[id];
+  return photo
+    ? `<div class="${cls}"><img src="${photo}" alt="${name}" loading="lazy"></div>`
+    : `<div class="${cls}">${initials(name)}</div>`;
+}
+
 function initials(name) {
   const parts = name.trim().split(/\s+/);
   return parts.slice(0, 2).map(p => p[0]).join('').toUpperCase();
 }
 
-// Рендер карточек
-function renderCards() {
-  const grid = document.getElementById('tasksGrid');
-  grid.innerHTML = PEOPLE.map((p, i) => `
-    <div class="person-card" data-index="${i}">
-      <div class="avatar">${initials(p.name)}</div>
-      <div class="person-name">${p.name}</div>
-      <div class="person-role">${p.role}</div>
+function renderTasksPage() {
+  const container = document.getElementById('tasksContainer');
+  container.innerHTML = GROUPS.map(g => `
+    <div class="people-section">
+      <h2 class="group-title">${g.title}</h2>
+      <div class="tasks-grid">
+        ${g.ids.map(id => {
+          const p = PEOPLE[id];
+          if (!p) return '';
+          return `
+            <div class="person-card" data-id="${id}">
+              ${renderAvatar(id, p.name, 'avatar')}
+              <div class="person-name">${p.name}</div>
+              <div class="person-role">${p.role}</div>
+            </div>
+          `;
+        }).join('')}
+      </div>
     </div>
   `).join('');
-  grid.querySelectorAll('.person-card').forEach(card => {
-    card.addEventListener('click', () => openModal(parseInt(card.dataset.index)));
+  container.querySelectorAll('.person-card').forEach(card => {
+    card.addEventListener('click', () => openModal(card.dataset.id));
   });
 }
 
-// Открытие модалки
-function openModal(index) {
-  const p = PEOPLE[index];
-  document.getElementById('modalAvatar').textContent = initials(p.name);
+function openModal(id) {
+  const p = PEOPLE[id];
+  if (!p) return;
+  const modalAvatar = document.getElementById('modalAvatar');
+  const photo = PHOTOS[id];
+  if (photo) {
+    modalAvatar.innerHTML = `<img src="${photo}" alt="${p.name}" loading="lazy">`;
+  } else {
+    modalAvatar.textContent = initials(p.name);
+  }
   document.getElementById('modalName').textContent = p.name;
   document.getElementById('modalRole').textContent = p.role;
   const coordsEl = document.getElementById('modalCoords');
   if (p.coords) {
-    coordsEl.textContent = 'Координирует работу: ' + p.coords.toLowerCase();
+    coordsEl.textContent = 'Координирует работу: ' + p.coords;
     coordsEl.style.display = 'block';
   } else {
     coordsEl.style.display = 'none';
@@ -693,11 +809,8 @@ document.getElementById('modalClose').addEventListener('click', closeModal);
 document.getElementById('modalBackdrop').addEventListener('click', (e) => {
   if (e.target.id === 'modalBackdrop') closeModal();
 });
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeModal();
-});
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
-// Навигация
 document.querySelectorAll('.nav button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
@@ -709,7 +822,8 @@ document.querySelectorAll('.nav button').forEach(btn => {
   });
 });
 
-renderCards();
+renderTasksPage();
+renderTeam();
 </script>
 
 </body>
