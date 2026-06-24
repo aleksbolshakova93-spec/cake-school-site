@@ -79,6 +79,25 @@ h1 { font-size: 26px; font-weight: 600; margin-bottom: 22px; letter-spacing: -0.
 .structure-wrap svg { display: block; min-width: 680px; max-width: 760px; margin: 0 auto; height: auto; }
 .legend { margin-top: 14px; font-size: 13px; color: var(--muted); text-align: center; }
 .legend strong { color: var(--pink); }
+/* Подсказка «поверни телефон» — только на узких экранах в вертикальном положении */
+.rotate-hint { display: none; }
+@media (max-width: 640px) {
+  /* Вписываем всю схему в ширину экрана, чтобы не нужно было листать вбок */
+  .structure-wrap svg { min-width: 0; width: 100%; }
+}
+@media (max-width: 640px) and (orientation: portrait) {
+  .rotate-hint {
+    display: block;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--pink-deep);
+    background: var(--pink-fill);
+    border-radius: 10px;
+    padding: 9px 12px;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+}
 
 /* Tasks page — hierarchical groups */
 .people-section { margin-bottom: 36px; }
@@ -295,6 +314,7 @@ h1 { font-size: 26px; font-weight: 600; margin-bottom: 22px; letter-spacing: -0.
 
   <section id="structure" class="section active">
     <h1>Структура команды</h1>
+    <p class="rotate-hint">📱 Поверните телефон горизонтально, чтобы рассмотреть схему крупнее</p>
     <div class="structure-wrap">
       <svg viewBox="0 0 680 762" xmlns="http://www.w3.org/2000/svg" width="100%">
         <!-- Founders -->
