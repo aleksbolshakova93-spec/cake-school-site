@@ -51,11 +51,20 @@ body { min-height: 100vh; }
   color: var(--muted);
   cursor: pointer;
   transition: all 0.15s ease;
+  /* Убирает 300ms задержку тапа на iOS и предотвращает отмену click при микро-скролле */
+  touch-action: manipulation;
+  /* Визуальный отклик на тап вместо системной серой подсветки */
+  -webkit-tap-highlight-color: rgba(231, 138, 174, 0.2);
 }
-.nav button:hover { color: var(--text); background: var(--pink-fill); }
+/* hover только для устройств с указателем — иначе на тач-экранах он «залипает»
+   и первый тап лишь показывает hover, а не переключает раздел */
+@media (hover: hover) {
+  .nav button:hover { color: var(--text); background: var(--pink-fill); }
+}
 .nav button.active { background: var(--pink); color: white; }
 @media (max-width: 640px) {
-  .header { flex-direction: column; gap: 16px; padding: 16px 20px; }
+  /* Шапка остаётся закреплённой при скролле, навигация всегда под рукой */
+  .header { flex-direction: column; gap: 16px; padding: 16px 20px; position: sticky; top: 0; }
   .logo { height: 32px; }
   .nav { width: 100%; justify-content: center; }
   .nav button { padding: 8px 14px; font-size: 13px; }
